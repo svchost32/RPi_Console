@@ -20,24 +20,8 @@ from suds.client import Client
 sockets=[]
 
 logging.basicConfig(level=logging.DEBUG)
-
-# s = socket(AF_INET,SOCK_DGRAM)
-# s.bind(('',2800))
-# pre_msg = ''
 recv_msg=''
 
-# rec_data=s.recvfrom(1024)
-# print(rec_data[0])
-
-
-# def recv_data():
-#     while (s.recvfrom(1024)[0].decode('gb2312')!='exit'):
-#         recv_data = s.recvfrom(1024)
-#         recv_msg = recv_data[0].decode('gb2312')
-#         print(recv_msg+' Thread1')
-
-#         # recv_msg =s.recvfrom(1024)[0].decode('gb2312')
-#         # logging.info("收到信息"+recv_msg)
 
 def info_main():
     server_socket = socket(AF_INET,SOCK_STREAM)
@@ -225,15 +209,17 @@ def displaymain():
         epd2in13_V2.epdconfig.module_exit()
         exit()
 
+def threadtest():
+    # t1 = Thread(target=recv_data)
+    t2 = Thread(target=displaymain)
+    # t3 = Thread(target=info_main)
+    # t1.start()
+    logging.info("监听已启动")
+    t2.start()
+    info_main()
+    # t3.start()
+    # t1.join()
+    # t2.join()
 
-# t1 = Thread(target=recv_data)
-t2 = Thread(target=displaymain)
-# t3 = Thread(target=info_main)
-# t1.start()
-logging.info("监听已启动")
-t2.start()
-info_main()
-# t3.start()
-# t1.join()
-# t2.join()
-
+def main():
+    threadtest()

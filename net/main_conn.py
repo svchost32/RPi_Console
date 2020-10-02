@@ -1,10 +1,15 @@
 from socket import *
 from threading import Thread
+import os
+import wrcon
+sockets = []
+
 
 def info_main():
     server_socket = socket(AF_INET, SOCK_STREAM)
     server_socket.bind(('', 8200))
     server_socket.listen()
+    # print('开始监听')
 
     while True:
         client_socket, client_info = server_socket.accept()
@@ -14,7 +19,6 @@ def info_main():
 
 
 def readMSG(client_socket):
-    global recv_msg
     while True:
         try:
             recv_data = client_socket.recv(1024)
@@ -34,4 +38,5 @@ def readMSG(client_socket):
                 # print('发送消息来自'+str(socket))
                 print(recv_data.decode('utf-8'))
                 recv_msg = recv_data.decode('utf-8')
+                wrcon.write_config('main',recv_msg)
                 # socket.send(recv_data)

@@ -13,10 +13,7 @@ import logging
 from waveshare_epd import epd2in13_V2
 import time
 from PIL import Image, ImageDraw, ImageFont
-import traceback
-from socket import *
-from threading import Thread
-from suds.client import Client
+import wrcon
 
 sockets = []
 
@@ -28,66 +25,10 @@ logging.basicConfig(level=logging.DEBUG)
 recv_msg = ''
 
 
-# rec_data=s.recvfrom(1024)
-# print(rec_data[0])
-
-
-# def recv_data():
-#     while (s.recvfrom(1024)[0].decode('gb2312')!='exit'):
-#         recv_data = s.recvfrom(1024)
-#         recv_msg = recv_data[0].decode('gb2312')
-#         print(recv_msg+' Thread1')
-
-#         # recv_msg =s.recvfrom(1024)[0].decode('gb2312')
-#         # logging.info("收到信息"+recv_msg)
-
-def info_main():
-    server_socket = socket(AF_INET, SOCK_STREAM)
-    server_socket.bind(('', 8200))
-    server_socket.listen()
-
-    while True:
-        client_socket, client_info = server_socket.accept()
-        sockets.append(client_socket)
-        t = Thread(target=readMSG, args=(client_socket,))
-        t.start()
-
-
-def readMSG(client_socket):
-    global recv_msg
-    while True:
-        try:
-            recv_data = client_socket.recv(1024)
-        except:
-            sockets.remove(client_socket)
-            client_socket.close()
-            print('失去连接')
-            break
-        # recv_data.decode('utf-8')
-        if recv_data.decode('utf-8').endswith('exit'):
-            sockets.remove(client_socket)
-            client_socket.close()
-            print('结束服务')
-            os._exit(0)
-        if len(recv_data) > 0:
-            for socket in sockets:
-                # print('发送消息来自'+str(socket))
-                print(recv_data.decode('utf-8'))
-                recv_msg = recv_data.decode('utf-8')
-                # socket.send(recv_data)
-
-
-# def get_ws_data():
-#     client = Client('http://192.168.1.243:8000/?wsdl', cache=None)
-#     result = client.service.say_hello('jason',1)
-#     res = ''.join(result[0])
-#     print('WS service work: '+res)
-#     return res
-
-
 def displaymain():
-    global recv_msg
+    # print('displaymain')
     try:
+        print('main display')
         logging.info("epd2in13_V2 Demo")
 
         epd = epd2in13_V2.EPD()
@@ -166,7 +107,7 @@ def displaymain():
             time_draw.rectangle((126, 62, 250, 122), fill=255)
             time_draw.text((0, 0), str(num) + u'次', font=font12, fill=0)
             # time_draw.text((10, 13), u'新世紀エヴァンゲリオン', font = font16, fill = 0)
-            time_draw.text((10, 13), recv_msg, font=font16, fill=0)
+            time_draw.text((10, 13), wrcon.read_config('main'), font=font16, fill=0)
             # print(recv_msg+' Thread 2')
             # logging.info(recv_msg)
             # time_draw.text((0, 40), '', font = font12, fill = 0)
@@ -180,7 +121,7 @@ def displaymain():
             # print(recv_msg)
             # if(num == 5):
             #     break
-            if (recv_msg.endswith('bye')):
+            if (wrcon.read_config('main').endswith('bye')):
                 break
 
         # # partial update
@@ -217,15 +158,4 @@ def displaymain():
         epd2in13_V2.epdconfig.module_exit()
         exit()
 
-
-# t1 = Thread(target=recv_data)
-t2 = Thread(target=displaymain)
-# t3 = Thread(target=info_main)
-# t1.start()
-logging.info("监听已启动")
-t2.start()
-info_main()
-# t3.start()
-# t1.join()
-# t2.join()
 

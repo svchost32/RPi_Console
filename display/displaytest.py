@@ -40,6 +40,7 @@ def displaymain():
         font15 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 15)
         font24 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
         font16 = ImageFont.truetype(os.path.join(picdir, 'Font1.otf'), 16)
+        font8 = ImageFont.truetype(os.path.join(picdir, 'Font1.otf'), 8)
         font12 = ImageFont.truetype(os.path.join(picdir, 'Font1.otf'), 12)
         # logging.info("1.Test TEXT...")
         # image = Image.new('1', (epd.height, epd.width), 255)  # 255: clear the frame
@@ -91,7 +92,7 @@ def displaymain():
 
         num = 0
 
-        time_draw.text((0, 107), str(num) + 'Bottom font15', font=font12, fill=0)
+        time_draw.text((0, 107), '看不見我', font=font12, fill=0)
 
         epd.displayPartBaseImage(epd.getbuffer(time_image))
 
@@ -105,13 +106,13 @@ def displaymain():
             # while(s.recvfrom(1024)[0].decode('gb2312')!='exit'):
             time_draw.rectangle((0, 0, 125, 61), fill=255)
             time_draw.rectangle((126, 62, 250, 122), fill=255)
-            time_draw.text((0, 0), str(num) + u'次', font=font12, fill=0)
+            time_draw.text((0, 0), str(num) + u'次更新', font=font12, fill=0)
             # time_draw.text((10, 13), u'新世紀エヴァンゲリオン', font = font16, fill = 0)
-            time_draw.text((10, 13), wrcon.read_config('main'), font=font16, fill=0)
+            time_draw.text((10, 13), wrcon.read_config('main'), font=font12, fill=0)
             # print(recv_msg+' Thread 2')
             # logging.info(recv_msg)
             # time_draw.text((0, 40), '', font = font12, fill = 0)
-            time_draw.text((126, 62), time.strftime('%H:%M:%S'), font=font16, fill=0)
+            time_draw.text((126, 62), 'Time: '+time.strftime('%H:%M:%S'), font=font12, fill=0)
             # edp.displayPartial
             # logging.info(str(time.time()))
 

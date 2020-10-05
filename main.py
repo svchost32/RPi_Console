@@ -5,7 +5,7 @@ import main_conn as mc1
 import wrcon
 
 def init():
-    wrcon.write_config('main','Waiting For DATA UPDate')
+    wrcon.write_config('main','美少女，早上好')
 
 
 from threading import Thread

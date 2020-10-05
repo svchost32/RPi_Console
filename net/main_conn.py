@@ -1,4 +1,5 @@
 from socket import *
+
 from threading import Thread
 import os
 import wrcon
@@ -40,3 +41,5 @@ def readMSG(client_socket):
                 recv_msg = recv_data.decode('utf-8')
                 wrcon.write_config('main',recv_msg)
                 # socket.send(recv_data)
+
+

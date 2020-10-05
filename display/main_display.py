@@ -3,6 +3,7 @@
 import sys
 import os
 from threading import Thread
+import wrcon
 
 picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'pic')
 libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
@@ -27,13 +28,16 @@ panels={
     'righttop':(185,5,245,58),
     'rightbottom':(185,62,245,117)
 }
-
-font15 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 15)
+font7 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 7)
+font8 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 8)
+font10 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 10)
+font12 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 12)
+font14 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 14)
 font24 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
 cfont6 = ImageFont.truetype(os.path.join(picdir, fonts['c3']), 6)
 cfont8 = ImageFont.truetype(os.path.join(picdir, fonts['c3']), 8)
 cfont10 = ImageFont.truetype(os.path.join(picdir, fonts['c3']), 10)
-cfont12 = ImageFont.truetype(os.path.join(picdir, fonts['c1']), 12)
+cfont12 = ImageFont.truetype(os.path.join(picdir, fonts['c3']), 12)
 cfont16 = ImageFont.truetype(os.path.join(picdir, fonts['c3']), 16)
 jfont6 = ImageFont.truetype(os.path.join(picdir, 'Font1.otf'), 6)
 jfont8 = ImageFont.truetype(os.path.join(picdir, 'Font1.otf'), 8)
@@ -41,7 +45,9 @@ jfont10 = ImageFont.truetype(os.path.join(picdir, 'Font1.otf'), 10)
 jfont12 = ImageFont.truetype(os.path.join(picdir, 'Font1.otf'), 12)
 jfont16 = ImageFont.truetype(os.path.join(picdir, 'Font1.otf'), 16)
 efont6 = ImageFont.truetype(os.path.join(picdir, fonts['e1']), 6)
+efont7 = ImageFont.truetype(os.path.join(picdir, fonts['e1']), 7)
 efont8 = ImageFont.truetype(os.path.join(picdir, fonts['e1']), 8)
+efont9 = ImageFont.truetype(os.path.join(picdir, fonts['e1']), 9)
 efont10 = ImageFont.truetype(os.path.join(picdir, fonts['e1']), 10)
 efont12 = ImageFont.truetype(os.path.join(picdir, fonts['e1']), 12)
 efont16 = ImageFont.truetype(os.path.join(picdir, fonts['e1']), 16)
@@ -92,7 +98,7 @@ def rightbottom_draw():
     while exitflag:
         mainFrame_draw.rectangle(panels['rightbottom'], fill=255)
         mainFrame_draw.text((186,63), time.strftime('%H:%M:%S'), font=efont12, fill=0)
-        time.sleep(5)
+        time.sleep(2)
         # epd.displayPartial(epd.getbuffer(rightbottom_frame))
 
 
@@ -106,6 +112,7 @@ def initMainFrame(image_arg):
     #初始化左右面板
     left.leftpannel_draw(0,mainFrame_draw)
     right.rightpannel_draw(0,mainFrame_draw)#绘制左右区域
+    mainFrame_draw.text((5, 100), wrcon.read_config('ip'), font=font10, fill=0)
     epd.displayPartBaseImage(epd.getbuffer(image_arg))
     epd.init(epd.PART_UPDATE)
 
@@ -130,15 +137,18 @@ def displaypro():
         trt.start()
         trb.start()
         while True:
-            mainFrame_draw.rectangle((5, 5, 175, 30), fill=255)
+            mainFrame_draw.rectangle((5, 5, 175, 90), fill=255)
             # mainFrame_draw.rectangle((186, 5, 245, 117), fill=255)
             mainFrame_draw.text((5, 5),str(num)+u'次 左侧文本测试长长长', font=cfont12, fill=0)
-            mainFrame_draw.text((10, 17), u'XXX，晚上好', font = cfont16, fill = 0)
+            mainFrame_draw.text((5, 17), wrcon.read_config('main')+u'，晚上好', font = cfont16, fill = 0)
             # mainFrame_draw.text((186, 105), time.strftime('%H:%M:%S'), font=jfont10, fill=0)\
             epd.displayPartial(epd.getbuffer(mainFrame_image))
             num=num+1
             time.sleep(1)
-            if(num == 10):
+            # if(num == 10):
+            #     exitflag = False
+            #     break
+            if (wrcon.read_config('main').endswith('bye')):
                 exitflag = False
                 break
         exitdis()
@@ -152,4 +162,3 @@ def displaypro():
 
 
 
-displaypro()

@@ -19,26 +19,38 @@ fonts={
     'c1':'MFTheGoldenEra_Noncommercial-Light.ttf',
     'c2':'MFKeSong_Noncommercial-Regular.ttf',
     'c3':'MFChunHei_Noncommercial-Regular.ttf',
-    'e1':'manteka.ttf'
+    'e1':'manteka.ttf',
+    'e2':'SourceCodePro-Regular.otf'
+
 }
 
 panels={
-    'left':(0,0,180,118),
-    'right':(184,0,246,118),
-    'righttop':(185,5,245,58),
-    'rightbottom':(185,62,245,117)
+    'left':(0,0,180,121),
+    'right':(184,0,246,121),
+    'lefttitle':(5,5,179,21), #title16号字体
+    'leftsubtitle':(5,22,179,35), #小标题12号,
+    'lefttitleline':[(5, 36), (160, 36)],
+    'leftcontent':(5,40,179,120),
+    'rightime':(185,1,249,10),#右上时钟
+    'righttop':(185,12,245,80),
+    'rightbottom':(185,81,245,120),
+    'rightbottomline':[(185,92), (240, 92)]
 }
 font7 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 7)
 font8 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 8)
+font9 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 9)
 font10 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 10)
 font12 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 12)
 font14 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 14)
 font24 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
 cfont6 = ImageFont.truetype(os.path.join(picdir, fonts['c3']), 6)
-cfont8 = ImageFont.truetype(os.path.join(picdir, fonts['c3']), 8)
+cfont8 = ImageFont.truetype(os.path.join(picdir, fonts['c2']), 8)
+cfont9 = ImageFont.truetype(os.path.join(picdir, fonts['c2']), 9)
 cfont10 = ImageFont.truetype(os.path.join(picdir, fonts['c3']), 10)
-cfont12 = ImageFont.truetype(os.path.join(picdir, fonts['c3']), 12)
+cfont12 = ImageFont.truetype(os.path.join(picdir, fonts['c1']), 12)
 cfont16 = ImageFont.truetype(os.path.join(picdir, fonts['c3']), 16)
+cfont24 = ImageFont.truetype(os.path.join(picdir, fonts['c1']), 24)
+
 jfont6 = ImageFont.truetype(os.path.join(picdir, 'Font1.otf'), 6)
 jfont8 = ImageFont.truetype(os.path.join(picdir, 'Font1.otf'), 8)
 jfont10 = ImageFont.truetype(os.path.join(picdir, 'Font1.otf'), 10)
@@ -49,7 +61,7 @@ efont7 = ImageFont.truetype(os.path.join(picdir, fonts['e1']), 7)
 efont8 = ImageFont.truetype(os.path.join(picdir, fonts['e1']), 8)
 efont9 = ImageFont.truetype(os.path.join(picdir, fonts['e1']), 9)
 efont10 = ImageFont.truetype(os.path.join(picdir, fonts['e1']), 10)
-efont12 = ImageFont.truetype(os.path.join(picdir, fonts['e1']), 12)
+efont12 = ImageFont.truetype(os.path.join(picdir, fonts['e2']), 12)
 efont16 = ImageFont.truetype(os.path.join(picdir, fonts['e1']), 16)
 
 
@@ -68,7 +80,7 @@ class left:#左面板
     #     pass
 
     def leftpannel_draw(self,draw):
-        draw.rectangle(panels['left'],fill=255)
+        draw.rectangle(panels['left'],fill=255)#框线 255没有，0有
         print('左已绘制')
         # return draw
 
@@ -77,9 +89,40 @@ class right:#右面版
     def __init__(self):
         startflag = True
     def rightpannel_draw(self,draw):
-        draw.rectangle(panels['right'])
+        draw.rectangle(panels['right'],fill=255)
         print('右已绘制')
-        # return draw
+
+
+
+
+def lefttitle_draw():
+    while exitflag:
+        mainFrame_draw.rectangle(panels['lefttitle'], fill=255)#填充色
+        mainFrame_draw.text((panels['lefttitle'][0], panels['lefttitle'][1]),u'标题文本测试', font=cfont16, fill=0)
+        time.sleep(1)
+
+def leftsubtitle_draw():
+    while exitflag:
+        mainFrame_draw.rectangle(panels['leftsubtitle'], fill=255)
+        mainFrame_draw.text((panels['leftsubtitle'][0], panels['leftsubtitle'][1]),u'副标题测试', font=font12, fill=0)
+        time.sleep(2)
+
+def leftcontent_draw():
+    while exitflag:
+        mainFrame_draw.rectangle(panels['leftcontent'], fill=255)#填充色
+        mainFrame_draw.rectangle(panels['leftcontent'])  # 填充色
+        mainFrame_draw.text((panels['leftcontent'][0]+5, panels['leftcontent'][1]+5),u'接受内容:', font=cfont24, fill=0)
+        mainFrame_draw.text((panels['leftcontent'][0] + 5, panels['leftcontent'][1] + 31),wrcon.read_config('content'), font=cfont24, fill=0)
+        time.sleep(1)
+
+
+def rightTime():
+    while exitflag:
+        mainFrame_draw.rectangle(panels['rightime'], fill=255)
+        mainFrame_draw.text((panels['rightime'][0]+15,panels['rightime'][1]), time.strftime('%H:%M:%S'), font=efont9, fill=0)
+        time.sleep(1)
+
+
 
 def righttop_draw():
     # righttop_frame = Image.new('1', (epd.height, epd.width), 255)
@@ -87,7 +130,11 @@ def righttop_draw():
 
     while exitflag:
         mainFrame_draw.rectangle(panels['righttop'], fill=255)
-        mainFrame_draw.text((186,5), time.strftime('%H:%M:%S'), font=efont10, fill=0)
+        mainFrame_draw.rectangle((panels['righttop'][0],panels['righttop'][1],panels['righttop'][2],panels['righttop'][1]+20))
+        mainFrame_draw.text((panels['righttop'][0],panels['righttop'][1]), u'测试文本行1', font=font9, fill=0)
+        mainFrame_draw.text((panels['righttop'][0], panels['righttop'][1]+10), u'测试文本行2', font=font9, fill=0)
+        mainFrame_draw.rectangle((panels['righttop'][0], panels['righttop'][1]+22, panels['righttop'][2], panels['righttop'][1] +42 ))
+        mainFrame_draw.rectangle((panels['righttop'][0], panels['righttop'][1]+44, panels['righttop'][2], panels['righttop'][1] + 64))
         time.sleep(1)
         # epd.displayPartial(epd.getbuffer(mainFrame_draw))
 
@@ -97,7 +144,12 @@ def rightbottom_draw():
 
     while exitflag:
         mainFrame_draw.rectangle(panels['rightbottom'], fill=255)
-        mainFrame_draw.text((186,63), time.strftime('%H:%M:%S'), font=efont12, fill=0)
+        mainFrame_draw.text((panels['rightbottom'][0], panels['rightbottom'][1]), 'Conn Status', font=efont8,fill=0)
+        mainFrame_draw.line(panels['rightbottomline'], fill=0, width=1)
+        mainFrame_draw.text((panels['rightbottom'][0],panels['rightbottom'][1]+13), 'WebSer ..Good   ', font=font8, fill=0)
+        mainFrame_draw.rectangle((panels['rightbottom'][0], panels['rightbottom'][1] + 22,panels['rightbottom'][2] -2,panels['rightbottom'][1] + 30), fill=0)
+        mainFrame_draw.text((panels['rightbottom'][0], panels['rightbottom'][1] + 22), 'TcPSer ..Good   ', font=font8,fill=255)
+        mainFrame_draw.text((panels['rightbottom'][0], panels['rightbottom'][1] + 31), 'Host:'+wrcon.read_config('ip'), font=font8,fill=0)
         time.sleep(2)
         # epd.displayPartial(epd.getbuffer(rightbottom_frame))
 
@@ -112,7 +164,8 @@ def initMainFrame(image_arg):
     #初始化左右面板
     left.leftpannel_draw(0,mainFrame_draw)
     right.rightpannel_draw(0,mainFrame_draw)#绘制左右区域
-    mainFrame_draw.text((5, 100), wrcon.read_config('ip'), font=font10, fill=0)
+    mainFrame_draw.line(panels['lefttitleline'], fill=0, width=1)
+    # mainFrame_draw.text((5, 100), wrcon.read_config('ip'), font=font10, fill=0)
     epd.displayPartBaseImage(epd.getbuffer(image_arg))
     epd.init(epd.PART_UPDATE)
 
@@ -134,13 +187,21 @@ def displaypro():
         print('开始画图')
         trt = Thread(target=righttop_draw)
         trb = Thread(target=rightbottom_draw)
+        tlt= Thread(target=lefttitle_draw)
+        tlst= Thread(target=leftsubtitle_draw)
+        tlc = Thread(target=leftcontent_draw)
+        rt=Thread(target=rightTime)
         trt.start()
         trb.start()
+        tlt.start()
+        tlst.start()
+        tlc.start()
+        rt.start()
         while True:
-            mainFrame_draw.rectangle((5, 5, 175, 90), fill=255)
+            # mainFrame_draw.rectangle((5, 5, 175, 90), fill=255)
             # mainFrame_draw.rectangle((186, 5, 245, 117), fill=255)
-            mainFrame_draw.text((5, 5),str(num)+u'次 左侧文本测试长长长', font=cfont12, fill=0)
-            mainFrame_draw.text((5, 17), wrcon.read_config('main')+u'，晚上好', font = cfont16, fill = 0)
+            # mainFrame_draw.text((5, 5),str(num)+u'次 左侧文本测试长长长', font=cfont12, fill=0)
+            # mainFrame_draw.text((5, 17), wrcon.read_config('main'), font = cfont16, fill = 0)
             # mainFrame_draw.text((186, 105), time.strftime('%H:%M:%S'), font=jfont10, fill=0)\
             epd.displayPartial(epd.getbuffer(mainFrame_image))
             num=num+1
@@ -148,7 +209,8 @@ def displaypro():
             # if(num == 10):
             #     exitflag = False
             #     break
-            if (wrcon.read_config('main').endswith('bye')):
+            if (wrcon.read_config('status').endswith('bye')):
+                print('显示结束')
                 exitflag = False
                 break
         exitdis()
@@ -159,6 +221,7 @@ def displaypro():
         logging.info("ctrl + c:")
         epd2in13_V2.epdconfig.module_exit()
         exit()
+
 
 
 

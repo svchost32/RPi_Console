@@ -1,5 +1,5 @@
 from socket import *
-
+import socket as soc
 from threading import Thread
 import os
 import wrcon
@@ -8,6 +8,7 @@ sockets = []
 
 def info_main():
     server_socket = socket(AF_INET, SOCK_STREAM)
+    server_socket.setsockopt(soc.SOL_SOCKET,soc.SO_REUSEADDR,1)
     server_socket.bind(('', 8200))
     server_socket.listen()
     # print('开始监听')
@@ -38,8 +39,8 @@ def readMSG(client_socket):
             for socket in sockets:
                 # print('发送消息来自'+str(socket))
                 print(recv_data.decode('utf-8'))
-                recv_msg = recv_data.decode('utf-8')
-                wrcon.write_config('main',recv_msg)
+                recv_msg = recv_data.decode('utf-8').split(',')
+                wrcon.write_config(recv_msg[0],recv_msg[1])
                 # socket.send(recv_data)
 
 

@@ -7,11 +7,13 @@ import time
 import init as initial
 
 def init():
-    wrcon.write_config('main','枯荣大佬')
+    wrcon.write_config('content','双双晚上好')
     wrcon.write_config('ip', initial.get_host_ip())
+    wrcon.write_config('status', '')
 
 
 from threading import Thread
+
 
 
 displaylib = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'display')

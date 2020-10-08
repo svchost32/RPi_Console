@@ -41,6 +41,6 @@ def readMSG(client_socket):
                 print(recv_data.decode('utf-8'))
                 recv_msg = recv_data.decode('utf-8').split(',')
                 wrcon.write_config(recv_msg[0],recv_msg[1])
-                # socket.send(recv_data)
+                # socket.send(('已收到:'+recv_data.decode('utf-8')).encode('utf-8'))
 
 

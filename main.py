@@ -7,7 +7,7 @@ import time
 import init as initial
 
 def init():
-    wrcon.write_config('content','双双晚上好')
+    wrcon.write_config('content','初始化内容')
     wrcon.write_config('ip', initial.get_host_ip())
     wrcon.write_config('status', '')
 

@@ -29,10 +29,10 @@ panels={
     'right':(184,0,246,121),
     'lefttitle':(5,5,179,21), #title16号字体
     'leftsubtitle':(5,22,179,35), #小标题12号,
-    'lefttitleline':[(5, 36), (160, 36)],
+    'lefttitleline':[(5, 37), (160, 37)],
     'leftcontent':(5,40,179,120),
     'rightime':(185,1,249,10),#右上时钟
-    'righttop':(185,12,245,80),
+    'righttop':(185,13,245,80),
     'rightbottom':(185,81,245,120),
     'rightbottomline':[(185,92), (240, 92)]
 }
@@ -104,14 +104,14 @@ def lefttitle_draw():
 def leftsubtitle_draw():
     while exitflag:
         mainFrame_draw.rectangle(panels['leftsubtitle'], fill=255)
-        mainFrame_draw.text((panels['leftsubtitle'][0], panels['leftsubtitle'][1]),u'副标题测试', font=font12, fill=0)
+        mainFrame_draw.text((panels['leftsubtitle'][0]+2, panels['leftsubtitle'][1]),u'副标题测试', font=font12, fill=0)
         time.sleep(2)
 
 def leftcontent_draw():
     while exitflag:
         mainFrame_draw.rectangle(panels['leftcontent'], fill=255)#填充色
         mainFrame_draw.rectangle(panels['leftcontent'])  # 填充色
-        mainFrame_draw.text((panels['leftcontent'][0]+5, panels['leftcontent'][1]+5),u'接受内容:', font=cfont24, fill=0)
+        mainFrame_draw.text((panels['leftcontent'][0]+5, panels['leftcontent'][1]+5),u'换个内容:', font=cfont24, fill=0)
         mainFrame_draw.text((panels['leftcontent'][0] + 5, panels['leftcontent'][1] + 31),wrcon.read_config('content'), font=cfont24, fill=0)
         time.sleep(1)
 
@@ -120,6 +120,9 @@ def rightTime():
     while exitflag:
         mainFrame_draw.rectangle(panels['rightime'], fill=255)
         mainFrame_draw.text((panels['rightime'][0]+15,panels['rightime'][1]), time.strftime('%H:%M:%S'), font=efont9, fill=0)
+        mainFrame_draw.line(
+            [(panels['righttop'][0]+12, panels['righttop'][1]-1), (panels['righttop'][2]-2, panels['righttop'][1]-1)],
+            fill=0, width=1)
         time.sleep(1)
 
 
@@ -130,11 +133,46 @@ def righttop_draw():
 
     while exitflag:
         mainFrame_draw.rectangle(panels['righttop'], fill=255)
-        mainFrame_draw.rectangle((panels['righttop'][0],panels['righttop'][1],panels['righttop'][2],panels['righttop'][1]+20))
-        mainFrame_draw.text((panels['righttop'][0],panels['righttop'][1]), u'测试文本行1', font=font9, fill=0)
-        mainFrame_draw.text((panels['righttop'][0], panels['righttop'][1]+10), u'测试文本行2', font=font9, fill=0)
-        mainFrame_draw.rectangle((panels['righttop'][0], panels['righttop'][1]+22, panels['righttop'][2], panels['righttop'][1] +42 ))
-        mainFrame_draw.rectangle((panels['righttop'][0], panels['righttop'][1]+44, panels['righttop'][2], panels['righttop'][1] + 64))
+        mainFrame_draw.rectangle((panels['righttop'][0],panels['righttop'][1],panels['righttop'][2],panels['righttop'][1]+21),fill=255)##框1
+        # mainFrame_draw.line(
+        #     [(panels['righttop'][0], panels['righttop'][1] ), (panels['righttop'][2], panels['righttop'][1])],
+        #     fill=0, width=1)
+        mainFrame_draw.line(
+            [(panels['righttop'][0], panels['righttop'][1] + 1), (panels['righttop'][0], panels['righttop'][1] + 20)],
+            fill=0, width=2)
+        # mainFrame_draw.line(
+        #     [(panels['righttop'][2], panels['righttop'][1] + 1), (panels['righttop'][2], panels['righttop'][1] + 20)],
+        #     fill=0, width=1)
+        mainFrame_draw.text((panels['righttop'][0]+3,panels['righttop'][1]+1), u'测试文本行1', font=font9, fill=0)##框1行1文本
+        mainFrame_draw.text((panels['righttop'][0]+3, panels['righttop'][1]+11), u'测试文本行2', font=font9, fill=0)
+
+        mainFrame_draw.rectangle((panels['righttop'][0], panels['righttop'][1]+23, panels['righttop'][2], panels['righttop'][1] +44),fill=255)
+        # mainFrame_draw.line(##上边
+        #     [(panels['righttop'][0], panels['righttop'][1]+23), (panels['righttop'][2], panels['righttop'][1]+23)],
+        #     fill=0, width=1)
+        mainFrame_draw.line(
+            [(panels['righttop'][0], panels['righttop'][1]+24), (panels['righttop'][0], panels['righttop'][1] + 43)],
+            fill=0, width=2)
+        # mainFrame_draw.line(
+        #     [(panels['righttop'][2], panels['righttop'][1] + 24), (panels['righttop'][2], panels['righttop'][1] + 43)],
+        #     fill=0, width=1)
+        mainFrame_draw.text((panels['righttop'][0] + 3, panels['righttop'][1] + 24), u'填充内容2-1', font=font9,fill=0)  ##框1行1文本
+        mainFrame_draw.text((panels['righttop'][0] + 3, panels['righttop'][1] + 34), u'填充内容2-2', font=font9, fill=0)
+
+        mainFrame_draw.rectangle(
+            (panels['righttop'][0], panels['righttop'][1] + 46, panels['righttop'][2], panels['righttop'][1] + 67),
+            fill=255)
+        # mainFrame_draw.line(
+        #     [(panels['righttop'][0], panels['righttop'][1]+46), (panels['righttop'][2], panels['righttop'][1]+46)],
+        #     fill=0, width=1)
+        mainFrame_draw.line(
+            [(panels['righttop'][0], panels['righttop'][1]+47), (panels['righttop'][0], panels['righttop'][1] + 66)],
+            fill=0, width=2)
+        # mainFrame_draw.line(#下边
+        #     [(panels['righttop'][2], panels['righttop'][1] + 47), (panels['righttop'][2], panels['righttop'][1] + 66)],
+        #     fill=0, width=1)
+        mainFrame_draw.text((panels['righttop'][0] + 3, panels['righttop'][1] + 47), u'填充内容3-1', font=font9,fill=0)  ##框1行1文本
+        mainFrame_draw.text((panels['righttop'][0] + 3, panels['righttop'][1] + 57), u'填充内容3-2', font=font9, fill=0)
         time.sleep(1)
         # epd.displayPartial(epd.getbuffer(mainFrame_draw))
 
@@ -206,13 +244,13 @@ def displaypro():
             epd.displayPartial(epd.getbuffer(mainFrame_image))
             num=num+1
             time.sleep(1)
-            # if(num == 10):
-            #     exitflag = False
-            #     break
-            if (wrcon.read_config('status').endswith('bye')):
-                print('显示结束')
+            if(num == 15):
                 exitflag = False
                 break
+            # if (wrcon.read_config('status').endswith('bye')):
+            #     print('显示结束')
+            #     exitflag = False
+            #     break
         exitdis()
     except IOError as e:
         logging.info(e)
@@ -221,7 +259,6 @@ def displaypro():
         logging.info("ctrl + c:")
         epd2in13_V2.epdconfig.module_exit()
         exit()
-
 
 
 
